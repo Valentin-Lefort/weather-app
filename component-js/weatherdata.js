@@ -1,6 +1,5 @@
 //
-import { apiKey } from "../.gitignore/apikey.js";
-
+import { apiKey } from "../gitignore/api";
 let apiInfo = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
 const cityBox = document.getElementById("cityInput");
