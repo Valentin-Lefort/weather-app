@@ -10,17 +10,17 @@ cityBox.value = "";
 function getWeatherIcon(weatherMain) {
   switch (weatherMain) {
     case "Clouds":
-      return "./public/src/clouds.png";
+      return "./src/clouds.png";
     case "Clear":
-      return "./public/src/clear.png";
+      return "./src/clear.png";
     case "Drizzle":
-      return "./public/src/drizzle.png";
+      return "./src/drizzle.png";
     case "Mist":
-      return "./public/src/mist.png";
+      return "./src/mist.png";
     case "Rain":
-      return "./public/src/rain.png";
+      return "./src/rain.png";
     case "Snow":
-      return "./public/src/snow.png";
+      return "./src/snow.png";
   }
 }
 
@@ -50,22 +50,22 @@ export async function dataWeather(city) {
 
   switch (dataResult.list[0].weather[0].main) {
     case "Clouds":
-      weatherIcon.src = "public/src/clouds.png";
+      weatherIcon.src = "./src/clouds.png";
       break;
     case "Clear":
-      weatherIcon.src = "public/src/clear.png";
+      weatherIcon.src = "./src/clear.png";
       break;
     case "Drizzle":
-      weatherIcon.src = "public/src/drizzle.png";
+      weatherIcon.src = "./src/drizzle.png";
       break;
     case "Mist":
-      weatherIcon.src = "public/src/mist.png";
+      weatherIcon.src = "./src/mist.png";
       break;
     case "Rain":
-      weatherIcon.src = "public/src/rain.png";
+      weatherIcon.src = "./src/rain.png";
       break;
     case "Snow":
-      weatherIcon.src = "public/src/rain.png";
+      weatherIcon.src = "./src/rain.png";
       break;
   }
 
