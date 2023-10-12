@@ -74,8 +74,8 @@ export async function dataWeather(city) {
   const forecastContainer = document.getElementById("forecastContainer");
   forecastContainer.innerHTML = "";
 
-  for (let day = 1; day <= 5; day++) {
-    const dayData = dataResult.list[day];
+  for (let day = 0; day <= 4; day++) {
+    const dayData = dataResult.list[day * 7];
 
     const dayContainer = document.createElement("div");
     dayContainer.className = "forecastDay";
