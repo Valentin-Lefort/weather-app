@@ -1,5 +1,4 @@
 //
-// import { apiKey } from "../api.js";
 
 let apiInfo =
   "https://api.openweathermap.org/data/2.5/forecast?units=metric&q=";
