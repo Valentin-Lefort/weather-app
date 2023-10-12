@@ -1,10 +1,7 @@
-//
-
 let apiInfo =
   "https://api.openweathermap.org/data/2.5/forecast?units=metric&q=";
 
 const cityBox = document.getElementById("cityInput");
-const weatherIcon = document.querySelector(".weatherLogo");
 cityBox.value = "";
 
 function getWeatherIcon(weatherMain) {
@@ -21,6 +18,8 @@ function getWeatherIcon(weatherMain) {
       return "./src/rain.png";
     case "Snow":
       return "./src/snow.png";
+    default:
+      return "./src/default.png";
   }
 }
 
@@ -30,8 +29,9 @@ export async function dataWeather(city) {
   );
   const dataResult = await data.json();
 
-  document.querySelector(".weatherLogo").src =
-    dataResult.list[0].weather[0].main;
+  document.querySelector(".weatherLogo").src = getWeatherIcon(
+    dataResult.list[0].weather[0].main
+  );
 
   document.getElementById("city").textContent =
     "City : " + dataResult.city.name + " , " + dataResult.city.country;
@@ -48,47 +48,46 @@ export async function dataWeather(city) {
 
   console.log(dataResult);
 
-  switch (dataResult.list[0].weather[0].main) {
-    case "Clouds":
-      weatherIcon.src = "./src/clouds.png";
-      break;
-    case "Clear":
-      weatherIcon.src = "./src/clear.png";
-      break;
-    case "Drizzle":
-      weatherIcon.src = "./src/drizzle.png";
-      break;
-    case "Mist":
-      weatherIcon.src = "./src/mist.png";
-      break;
-    case "Rain":
-      weatherIcon.src = "./src/rain.png";
-      break;
-    case "Snow":
-      weatherIcon.src = "./src/rain.png";
-      break;
-  }
-
   const forecastContainer = document.getElementById("forecastContainer");
   forecastContainer.innerHTML = "";
+
+  let tempMax = [];
+  let tempMin = [];
 
   for (let day = 0; day <= 4; day++) {
     const dayData = dataResult.list[day * 7];
 
+    for (let i = 0; i <= 7; i++) {
+      const dayData = dataResult.list[day * 7 + i];
+      tempMax.push(dayData.main.temp_max);
+      tempMin.push(dayData.main.temp_min);
+    }
+
+    const mainWeather = dayData.weather[0].main;
+
     const dayContainer = document.createElement("div");
     dayContainer.className = "forecastDay";
+    dayContainer.classList.add("flex", "flex-col", "text-center", "border");
     forecastContainer.appendChild(dayContainer);
+
+    const dayName = document.createElement("span");
+    dayName.textContent = new Date(dayData.dt_txt).toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+    dayName.classList.add("font-bold", "pt-2");
+    dayContainer.appendChild(dayName);
 
     const maxTempDay = document.createElement("span");
     maxTempDay.textContent =
-      "Temp max: " + Math.round(dayData.main.temp_max) + " °C ";
+      "Temp max: " + Math.round(Math.max(...tempMax)) + " °C ";
 
     const minTempDay = document.createElement("span");
+    minTempDay.classList.add("pb-2");
     minTempDay.textContent =
-      "Temp min: " + Math.round(dayData.main.temp_min) + " °C ";
+      "Temp min: " + Math.round(Math.min(...tempMin)) + " °C ";
 
     const weatherIconDay = document.createElement("img");
-    weatherIconDay.src = getWeatherIcon(dayData.weather[0].main);
+    weatherIconDay.src = getWeatherIcon(mainWeather);
 
     dayContainer.appendChild(weatherIconDay);
     dayContainer.appendChild(maxTempDay);
@@ -100,5 +99,7 @@ cityBox.addEventListener("keyup", (e) => {
   if (e.key === "Enter") {
     dataWeather(cityBox.value);
     cityBox.value = "";
+    const cont = document.getElementById("container");
+    cont.classList.add("border");
   }
 });
