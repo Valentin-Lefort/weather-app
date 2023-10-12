@@ -1,27 +1,57 @@
 //
-import { apiKey } from "../gitignore/api";
-let apiInfo = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+// import { apiKey } from "../api.js";
+
+let apiInfo =
+  "https://api.openweathermap.org/data/2.5/forecast?units=metric&q=";
 
 const cityBox = document.getElementById("cityInput");
 const weatherIcon = document.querySelector(".weatherLogo");
 cityBox.value = "";
 
+function getWeatherIcon(weatherMain) {
+  switch (weatherMain) {
+    case "Clouds":
+      return "public/src/clouds.png";
+    case "Clear":
+      return "public/src/clear.png";
+    case "Drizzle":
+      return "public/src/drizzle.png";
+    case "Mist":
+      return "public/src/mist.png";
+    case "Rain":
+      return "public/src/rain.png";
+    case "Snow":
+      return "public/src/snow.png";
+    default:
+      return "public/src/default.png";
+  }
+}
+
 export async function dataWeather(city) {
-  const data = await fetch(apiInfo + city + `&appid=${apiKey}`);
+  const data = await fetch(
+    apiInfo + city + `&appid=${import.meta.env.VITE_SECRETWEATHERAPI_KEY}`
+  );
   const dataResult = await data.json();
 
+  document.querySelector(".weatherLogo").src =
+    dataResult.list[0].weather[0].main;
+
   document.getElementById("city").textContent =
-    "City : " + dataResult.name + " , " + dataResult.sys.country;
-  document.getElementById("temp").textContent =
-    "Temperature : " + Math.round(dataResult.main.temp) + " °C";
+    "City : " + dataResult.city.name + " , " + dataResult.city.country;
+  document.getElementById("maxTemp").textContent =
+    "Temp max: " + Math.round(dataResult.list[0].main.temp_max) + " °C ";
+  document.getElementById("minTemp").textContent =
+    "Temp min: " + Math.round(dataResult.list[0].main.temp_min) + " °C ";
+  document.getElementById("nowTemp").textContent =
+    "Temp now: " + Math.round(dataResult.list[0].main.temp) + " °C ";
   document.getElementById("wind").textContent =
-    "Wind : " + dataResult.wind.speed + " KM/H";
+    "Wind : " + dataResult.list[0].wind.speed + " KM/H";
   document.getElementById("humidity").textContent =
-    "Humidity : " + dataResult.main.humidity + "%";
+    "Humidity : " + dataResult.list[0].main.humidity + "%";
 
   console.log(dataResult);
 
-  switch (dataResult.weather[0].main) {
+  switch (dataResult.list[0].weather[0].main) {
     case "Clouds":
       weatherIcon.src = "public/src/clouds.png";
       break;
@@ -37,6 +67,35 @@ export async function dataWeather(city) {
     case "Rain":
       weatherIcon.src = "public/src/rain.png";
       break;
+    case "Snow":
+      weatherIcon.src = "public/src/rain.png";
+      break;
+  }
+
+  const forecastContainer = document.getElementById("forecastContainer");
+  forecastContainer.innerHTML = "";
+
+  for (let day = 1; day <= 5; day++) {
+    const dayData = dataResult.list[day];
+
+    const dayContainer = document.createElement("div");
+    dayContainer.className = "forecastDay";
+    forecastContainer.appendChild(dayContainer);
+
+    const maxTempDay = document.createElement("span");
+    maxTempDay.textContent =
+      "Temp max: " + Math.round(dayData.main.temp_max) + " °C ";
+
+    const minTempDay = document.createElement("span");
+    minTempDay.textContent =
+      "Temp min: " + Math.round(dayData.main.temp_min) + " °C ";
+
+    const weatherIconDay = document.createElement("img");
+    weatherIconDay.src = getWeatherIcon(dayData.weather[0].main);
+
+    dayContainer.appendChild(weatherIconDay);
+    dayContainer.appendChild(maxTempDay);
+    dayContainer.appendChild(minTempDay);
   }
 }
 

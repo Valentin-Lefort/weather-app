@@ -11,22 +11,29 @@
     <title>Weather App</title>
   </head>
   <body class="bg-gray-700 text-white">
-    <div>
+    <div class="flex justify-center mt-4">
       <input
         id="cityInput"
-        class="text-red-950"
+        class="text-black text-center"
         type="text"
-        placeholder="Put a cityName"
+        placeholder="Put a City Name"
       />
-      <img src="#" alt="" />
     </div>
-    <div>
+    <div class="flex justify-center">
       <img src="" class="weatherLogo" />
-      <span id="city"></span><br />
-      <span id="temp"></span><br />
-      <span id="humidity"></span><br />
-      <span id="wind"></span>
+      <div class="flex flex-col text-center justify-center">
+        <span id="city"></span><br />
+        <span id="nowTemp"></span> <br />
+        <span id="minTemp"></span> <br />
+        <span id="maxTemp"></span><br />
+        <span id="humidity"></span><br />
+        <span id="wind"></span>
+      </div>
     </div>
+    <div
+      id="forecastContainer"
+      class="flex flex-row justify-center justify-evenly"
+    ></div>
 
     <script type="module" src="/main.js"></script>
   </body>
