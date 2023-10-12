@@ -10,19 +10,17 @@ cityBox.value = "";
 function getWeatherIcon(weatherMain) {
   switch (weatherMain) {
     case "Clouds":
-      return "public/src/clouds.png";
+      return "./public/src/clouds.png";
     case "Clear":
-      return "public/src/clear.png";
+      return "./public/src/clear.png";
     case "Drizzle":
-      return "public/src/drizzle.png";
+      return "./public/src/drizzle.png";
     case "Mist":
-      return "public/src/mist.png";
+      return "./public/src/mist.png";
     case "Rain":
-      return "public/src/rain.png";
+      return "./public/src/rain.png";
     case "Snow":
-      return "public/src/snow.png";
-    default:
-      return "public/src/default.png";
+      return "./public/src/snow.png";
   }
 }
 
