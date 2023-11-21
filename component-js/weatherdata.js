@@ -33,19 +33,6 @@ export async function dataWeather(city) {
     dataResult.list[0].weather[0].main
   );
 
-  document.getElementById("city").textContent =
-    "City : " + dataResult.city.name + " , " + dataResult.city.country;
-  document.getElementById("maxTemp").textContent =
-    "Temp max: " + Math.round(dataResult.list[0].main.temp_max) + " °C ";
-  document.getElementById("minTemp").textContent =
-    "Temp min: " + Math.round(dataResult.list[0].main.temp_min) + " °C ";
-  document.getElementById("nowTemp").textContent =
-    "Temp now: " + Math.round(dataResult.list[0].main.temp) + " °C ";
-  document.getElementById("wind").textContent =
-    "Wind : " + dataResult.list[0].wind.speed + " KM/H";
-  document.getElementById("humidity").textContent =
-    "Humidity : " + dataResult.list[0].main.humidity + "%";
-
   console.log(dataResult);
 
   const forecastContainer = document.getElementById("forecastContainer");
@@ -64,6 +51,19 @@ export async function dataWeather(city) {
     }
 
     const mainWeather = dayData.weather[0].main;
+
+    document.getElementById("city").textContent =
+      "City : " + dataResult.city.name + " , " + dataResult.city.country;
+    document.getElementById("maxTemp").textContent =
+      "Temp max: " + Math.round(Math.max(...tempMax)) + " °C ";
+    document.getElementById("minTemp").textContent =
+      "Temp min: " + Math.round(Math.max(...tempMin)) + " °C ";
+    document.getElementById("nowTemp").textContent =
+      "Temp now: " + Math.round(dataResult.list[0].main.temp) + " °C ";
+    document.getElementById("wind").textContent =
+      "Wind : " + dataResult.list[0].wind.speed + " KM/H";
+    document.getElementById("humidity").textContent =
+      "Humidity : " + dataResult.list[0].main.humidity + "%";
 
     const dayContainer = document.createElement("div");
     dayContainer.className = "forecastDay";
